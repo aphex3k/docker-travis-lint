@@ -5,4 +5,4 @@ This docker image is based on the official docker [ruby](https://hub.docker.com/
 ## Usage
 Example command:
 
-    docker run -v $(pwd)/:/data/ travis-lint .travis.yml
+    docker run -v $(pwd)/:/data/ aphex3k/docker-travis-lint .travis.yml
