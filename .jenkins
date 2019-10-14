@@ -1,0 +1,24 @@
+pipeline {
+    agent any
+    stages {
+        stage('Checkout') {
+            steps {
+                checkout scm
+                echo 'Clean'
+                sh 'git clean -xdf'
+            }
+        }
+        stage ('Travis CI') {
+            steps {
+                script {
+                    sh '/usr/local/bin/docker run -v $(pwd)/:/data/ aphex3k/docker-travis-lint .travis.yml || /usr/local/bin/docker run -v $(pwd)/:/data/ aphex3k/docker-travis-lint .travis.yml'
+                }
+            }
+        }
+    }
+    post {
+        cleanup {
+            sh 'git clean -xdf'            
+        }
+    }
+}
