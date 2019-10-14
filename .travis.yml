@@ -1,0 +1,17 @@
+#https://docs.travis-ci.com/user/docker/
+language: ruby
+
+services:
+  - docker
+
+env:
+  global:
+    # https://graysonkoonce.com/getting-the-current-branch-name-during-a-pull-request-in-travis-ci/
+    - export BRANCH=$(if [ "$TRAVIS_PULL_REQUEST" == "false" ]; then echo $TRAVIS_BRANCH; else echo $TRAVIS_PULL_REQUEST_BRANCH; fi)
+    - export SLUG=$(if [ "$TRAVIS_PULL_REQUEST" == "false" ]; then echo $TRAVIS_REPO_SLUG; else echo $TRAVIS_PULL_REQUEST_SLUG; fi)
+
+script:
+  - echo BRANCH="$BRANCH", SLUG="$SLUG"
+  - git clone --depth 1 --branch $BRANCH https://github.com/$SLUG.git repo
+  - docker build --tag test repo
+  - docker run -v $(pwd)/:/data/ test repo/.travis.yml
