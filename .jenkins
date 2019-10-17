@@ -20,7 +20,7 @@ pipeline {
         stage ('Travis CI') {
             steps {
                 script {
-                    sh '/usr/local/bin/docker run -v $(pwd)/:/data/ aphex3k/docker-travis-lint .travis.yml || /usr/local/bin/docker run -v $(pwd)/:/data/ aphex3k/docker-travis-lint .travis.yml'
+                    sh '/usr/local/bin/docker run --rm -v $(pwd)/:/data/ aphex3k/docker-travis-lint .travis.yml || /usr/local/bin/docker run -v $(pwd)/:/data/ aphex3k/docker-travis-lint .travis.yml'
                 }
             }
         }
